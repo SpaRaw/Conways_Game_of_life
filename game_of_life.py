@@ -21,6 +21,55 @@ def add_glider(i, j, grid):
                        [0, 255, 255]])
     grid[i:i+3, j:j+3] = glider
 
+def add_gosper_gun(i, j, grid):
+    """ adds a gosper gun in the upper part of the screen"""
+    gospel_glider = np.zeros(11*40).reshape(11, 40)
+    points=[(2, 27),
+            (3, 25),
+            (3, 27),
+            (4, 15),
+            (4, 16),
+            (4, 23),
+            (4, 24),
+            (4, 38),
+            (4, 39),
+            (5, 14),
+            (5, 18),
+            (5, 23),
+            (5, 24),
+            (5, 38),
+            (5, 39),
+            (5, 2),
+            (5, 3),
+            (6, 13),
+            (6, 19),
+            (6, 23),
+            (6, 24),
+            (6, 2),
+            (6, 3),
+            (7, 13),
+            (7, 17),
+            (7, 19),
+            (7, 20),
+            (7, 25),
+            (7, 27),
+            (8, 13),
+            (8, 19),
+            (8, 27),
+            (9, 14),
+            (9, 18),
+            (10, 15),
+            (10, 16)
+    ]
+
+    for a, b in points:
+        gospel_glider[a-1, b-1] = 255
+
+    grid[i:i+11, j:j+40] = gospel_glider
+    plt.imshow(gospel_glider)
+    plt.plot()
+
+
 
 def update(frameNum, img, grid, N):
     #copy grid since we reequire 8 neighbros for calculation
@@ -84,6 +133,13 @@ def main():
         add_glider(i=1, j=1, grid=grid)
     else:
         #populate grid with random on/off - more off than on
+        grid = random_grid(N)
+
+    #check if gospel gun demo flag is specified
+    if args.gosper:
+        grid = np.zeros(N*N).reshape(N, N)
+        add_gosper_gun(i=1, j=1, grid=grid)
+    else:
         grid = random_grid(N)
 
     #set up the animation
